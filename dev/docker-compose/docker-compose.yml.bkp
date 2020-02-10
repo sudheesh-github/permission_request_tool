@@ -1,0 +1,45 @@
+version: '2.0'
+
+services:
+ permission_request_app_dev:
+  build:
+   context: /glb/home/s_tlstcs/permission_request_app/dev/docker
+   dockerfile: Dockerfile
+  container_name: permission_request_app_dev
+  image: permission_request_tool_dev
+  restart: always
+  ports:
+   - 5004:80
+  networks:
+   permission_request_network_dev:
+    ipv4_address: 172.23.0.2
+  volumes:
+   - /glb/home/s_tlstcs/permission_request_app/dev:/opt/permission_request_application/
+   - /glb/home/s_tlstcs/permission_request_app/cluster_mounts:/opt/permission_request_application_files/
+   - /glb/home/s_tlstcs/:/glb/home/s_tlstcs/
+ 
+ permission_request_cron:
+  build:
+   context: /glb/home/s_tlstcs/permission_request_app/dev/docker-cron
+   dockerfile: Dockerfile
+  container_name: permission_request_cron_dev
+  image: permission_request_cron_dev
+  restart: always
+  networks:
+   permission_request_network_dev:
+    ipv4_address: 172.23.0.3
+  volumes:
+   - /glb/home/s_tlstcs/permission_request_app/dev:/opt/permission_request
+   - /glb/home/s_tlstcs/:/glb/home/s_tlstcs/
+   - /glb/home/s_tlstcs/permission_request_app/cluster_mounts:/opt/permission_request_files/
+   - /etc/localtime:/etc/localtime:ro
+
+networks:
+ permission_request_network_dev:
+  driver: bridge
+  ipam:
+   config:
+    - subnet: 172.23.0.0/16
+      ip_range: 172.23.0.0/24
+
+

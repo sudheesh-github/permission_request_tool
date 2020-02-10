@@ -1,0 +1,32 @@
+<p>Hi {{ val['name'] }},</p>
+
+<p>Please find the requested information below: </p> 
+
+<p>Path:
+{{ val['path'] }}
+</p>
+{% if 'perm_val' in val %}
+	<table style="border: 1px inset lightsteelblue;">
+		<tr>
+			<th style="border: 1px inset lightsteelblue;">Group</th>
+			<th style="border: 1px inset lightsteelblue;">Permissions</th>
+		</tr>
+		{% set perm_hash = val['perm_val'] %}
+		{% for perm_key in perm_hash %}
+			<tr><td style="border: 1px inset lightsteelblue;">{{ perm_key }}</td><td style="border: 1px inset lightsteelblue;">{{ perm_hash[perm_key] }}</td></tr>
+		{% endfor %}
+	</table>
+{% else %}
+	<p><b><i>{{ val['perm_str'] }}</i></b></p>
+{% endif %}
+
+{% if (val['security_style']) %}
+<p>
+<strong>Top level folder for the requested path has security style as: {{ val['security_style'] }}</strong>
+</p>
+{% endif %}
+
+<p><em>Note: This is an auto-generated mail. In case of any issue please contact the email id provided in signature.</em></p>
+<p>Thanks & Regards,<br>TCSS Team: {{ val['sender_mail'] }}</p>
+
+

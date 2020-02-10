@@ -1,0 +1,14 @@
+version: '2.0'
+
+services:
+ permission_request_cron:
+  build:
+   context: /glb/home/s_tlstcs/permission_request_app/dev/docker-cron
+   dockerfile: Dockerfile
+  network_mode: host
+  container_name: permission_request_cron_dev
+  image: permission_request_cron_dev
+  restart: always
+  volumes:
+   - /glb/home/s_tlstcs/permission_request_app/dev/bin:/opt/permission_request/bin
+   - /glb/home/s_tlstcs/:/glb/home/s_tlstcs/

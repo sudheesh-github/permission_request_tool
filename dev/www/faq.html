@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<div id="container">
+            <div id="header">
+                <div class="title">
+                    <h1>
+                        <span class="logofaq">Shell</span>
+                    </h1>
+                </div>
+                <div id="banner" class="nonavi">
+                    <h1 id="topheader">Permission Request Tool</h1>
+                </div>
+            </div>
+            <div id="faqdetails" align="left">
+                 <h1>Contents:</h1>
+<table>
+<tr>
+<th style="border:1px solid #ccc;text-decoration: none;background-color: #bcdcef"><a href="#pathformat" style="text-decoration: none">What to input in GUI?</a></th>
+<th></th>
+<th></th>
+<th style="border:1px solid #ccc;text-decoration: none;background-color: #bcdcef"><a href="#ouputformat" style="text-decoration: none">What is the Output</a></th>
+<th></th>
+<th></th>
+<th style="border:1px solid #ccc;text-decoration: none;background-color: #bcdcef"><a href="#mesginterpret" style="text-decoration: none">Message Interpretation</a></th>
+<th></th>
+<th></th>
+<th style="border:1px solid #ccc;text-decoration: none;background-color: #bcdcef"><a href="#toplinux" style="text-decoration: none">How to get access if the path top level is Linux style</a></th>
+</tr>
+</table>
+
+<h1><a name="pathformat">What to input in GUI?</a></h1>
+	<h2>What is Path Type</h2>
+	<ol>
+		<li><h3>IFS - Isilon File System</h3></li>
+		<p>The format for IFS path should be similar to the format provided in example.<br>
+		e.g. /ifs/L1/L2/L3/L4/L5/L6/L7<br>
+		</p>
+		<p><u><b>L1 - Region</b></u>
+			<ul>
+				<li>am</li>
+				<li>ap</li>
+				<li>eu</li>
+			</ul>
+		</p>
+		<p><u><b>L2 - Location</b></u>
+			<ul>
+				<li>for am: hou,cal,rio</li>
+				<li>for ap: bng,pej,pth,bri</li>
+				<li>for eu: ams,ris</li>
+			</ul>
+		</p>
+		<p><u><b>L3 - Protection Type </b></u>
+			<ul>
+				<li>backup</li>
+				<li>nobackup</li>
+				<li>scratch</li>
+			</ul>
+		</p>
+		<p><u><b>L4/L5 - Business Unit</b></u><br>
+		e.g. . ua/sepco, ua/sda etc
+		</p>
+		<p><u><b>L6 - Data Type</b></u>
+			<ul>
+				<li>data</li>
+				<li>proj</li>
+				<li>seis</li>
+				<li>owdata</li>
+				<li>corpdata</li>
+				<li>field</li>
+			</ul>
+		</p>
+		<p><u><b>L7 - User Folder</b></u><br>
+		e.g. /ifs/am/hou/backup/ua/sepco/proj/&lt user folder &gt
+		</p>
+		<li><h3>DFS - Distributed File System Format</h3></li>
+		<p>The format for IFS path should be similar to the format provided in example.<br>
+		e.g. . \\Region\tcs\Location\Business Unit\Data Type\&ltUser Folder&gt<br>
+		</p>
+		<p><u><b>Region</b></u>
+			<ul>
+				<li>americas.shell.com</li>
+				<li>asia-pac.shell.com</li>
+				<li>europe.shell.com</li>
+			</ul>
+		</p>
+		<p><u><b>Location</b></u>
+			<ul>
+				<li>for americas.shell.com: hou,cal,rio</li>
+				<li>for asia-pac.shell.com: bng,pej,pth,bri</li>
+				<li>for europe.shell.com: ams,ris</li>
+			</ul>
+		</p>
+		<p><u><b>Business Unit</b></u><br>
+		e.g. ua.sepco, ua.sda etc
+		</p>
+		<p><u><b>Data Type</b></u>
+			<ul>
+				<li>data</li>
+				<li>proj</li>
+				<li>seis</li>
+				<li>owdata</li>
+				<li>corpdata</li>
+				<li>field</li>
+			</ul>
+		</p>
+	</ol>
+	<h4>Note: Tool provides support to sub directories of level7 upto any level.</h4>
+		
+<h1><a name="ouputformat">What is the Output</a></h1>
+<p>Output is sent to the requestor in the form of an email after 15 minutes of submitting the request.</p>
+<p><u>Sample Email Output:</u></p>
+<img src="images/sample_email.JPG">
+
+<h1><a name="mesginterpret">Message Interpretation</a></h1>
+	<ol>
+		<li><h2>No FGO Group Assigned or if the FGO group does not have required access</h2></li>
+		<p>No FGO group is associated with the requested storage path.</p>
+		<p><b>What to do Further?</b></p>
+		<p>In order to have access the following is the required.<br>
+			<ol type="a">
+				<li>Create the required FGO group in the appropriate domain by submitting a request in <a href="https://shell.service-now.com/sp?id=sc_cat_item_guide&sys_id=ee3cccaddb1d9f40bd27f9231d961945">ServiceNow</a>:<br>
+				Active Directory - Group - Add Change Delete Rename (refer to snippet below)
+				</li>
+				<li>Add the user account(s) to the newly created FGO group by submitting a request in <a href="https://shell.service-now.com/sp?id=sc_cat_item_guide&sys_id=ee3cccaddb1d9f40bd27f9231d961945">ServiceNow</a>:<br>
+				Active Directory - Group - User - Add / Delete (refer to snippet below)
+				</li>
+				<img src="images/no-fgo-group-snippet1.jpg" style="height:500px">
+				<li>Request for the newly created FGO group to the applied to the path by submitting a request in <a href="https://shell.service-now.com/sp?id=sc_cat_item_guide&sys_id=4d5cfa0adb321b00f16ef1951d9619ed">ServiceNow</a>:<br>
+				TCS - Permission – Change (refer to snippet below)
+				</li>
+				<img src="images/no-fgo-group-snippet2.jpg" style="height:500px">
+				<p>Then select Technical Storage and Data Services. Top navigation choices change once selected.</p>
+				<img src="images/no-fgo-group-snippet3.jpg" style="height:500px">
+			</ol>
+		</p>
+		<li><h2>Duplicate Request</h2></li>
+		<p>The request for this Path has already been submitted and its under process. Please wait, you will receive the information over email.<br>
+		Request for this path can be submitted again after you have received the information over email.
+		</p>
+		<li><h2>Incorrect Path</h2></li>
+		<p>Please follow the naming standards as per the guidelines mentioned in section <a href="#pathformat">What to input in GUI?</a></p>
+		<li><h2>Incorrect Location or Incorrect Region or Not TCS path</h2></li>
+		<p>Please enter the correct location in the path. This Team can only provide details on the following locations:</p>
+		<ul>
+			<li>\\europe.shell.com\tcs\ams</li>
+			<li>\\europe.shell.com\tcs\ris</li>
+			<li>\\amercias.shell.com\tcs\hou</li>
+			<li>\\amercias.shell.com\tcs\cal</li>
+			<li>\\asia-pac.shell.com\tcs\pej</li>
+			<li>\\asia-pac.shell.com\tcs\pth</li>
+			<li>\\asia-pac.shell.com\tcs\bng</li>
+			<li>\\americas.shell.com\tcs\rio</li>
+			<li>\\americas.shell.com\tcs\bri</li>
+		</ul>
+	</ol>
+	
+<h1><a name="toplinux">How to get access if the path top level is Linux style</a></h1>
+<p>In order to have access the following is the required</p>
+	<ol type="a">
+		<li>Have a valid Linux account.<br>
+		Linux (Global) account - Create –  in ServiceNow <a href="https://shell.service-now.com/sp?id=sc_cat_item&sys_id=f9e0d3c9db921f00bd27f9231d961907">here</a>
+		</li>
+		<li>Their Linux account must be correctly linked to the user’s Windows account.</li>
+		<li>The account must be a member of the Linux security group <b>Linux_group</b><br>
+		Linux (Global) Group membership and management  -  in ServiceNow <a href="https://shell.service-now.com/sp?id=sc_cat_item&sys_id=fde0d3c9db921f00bd27f9231d961938">here</a>
+		</li>
+		<img src="images/linux-account-snippet1.jpg" style="height:500px">
+		<p>Linux (Global) Group membership and management</p>
+		<img src="images/linux-account-snippet2.jpg" style="height:500px">
+	</ol>
+            </div>
+
+</div>
+</body>
+</html>

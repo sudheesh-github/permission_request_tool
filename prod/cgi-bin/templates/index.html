@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}" type="text/css" />
+        <script type="text/javascript" src="{{url_for('static',filename='js/jquery-1.7.1.min.js')}}"></script>
+        <script type="text/javascript" src="{{url_for('static',filename='js/jquery.placeholder.js')}}"></script>
+        <title>Permission Request Tool</title>
+    </head>
+    <body>
+        <div id="container">
+            <div id="header">
+                <div class="title">
+                    <h1>
+                        <span class="logo">Shell</span>
+                        <!-- <span class="logo1">Shell TLS</span> -->
+                        <div class="user-info">
+                            <span class="user-name"><p>{{ email }}</p></span>
+                        </div>
+                    </h1>
+                </div>
+                <div id="banner" class="nonavi">
+                    <h1 id="topheader">Permission Request Tool</h1>
+                </div>
+            </div>
+                <div id="overlay" class="loadr" style="display:none;"><img src="{{url_for('static',filename='img/loading.gif')}}" alt="Be patient..." /></div>
+                <div id="myModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <p id="opmsg"> </p>
+                    </div>
+                </div>
+                <div id="details">
+                    <table>
+                        <tr>
+                            <td>Path Type:</td>
+                            <td>
+                                <select class="select-container" id="pathtype" name="pathtype">
+                                    <option selected value> -- select an option -- </option>
+                                    <option value="ifspath">IFS Path</option>
+                                    <option value="dfspath">DFS Path</option>
+                                </select>
+                            </td>
+                            <td></td>
+                            <td>Path:</td>
+                            <td>
+                                <input type="text" class="search-field" name="path"  id="path" placeholder="Enter Path">
+                            </td>
+                        </tr>
+                        <tr style="height:10em;">
+                            <td></td><td></td>
+                            <td><button class="submit" id='but' onclick='post_values();'>Submit</button></td>
+                        </tr>
+                    </table>
+                </div>
+
+        </div>
+        <div>
+            {{ otpt }}
+        </div>
+        <script>
+            function validateInput()
+            {
+                var pthtyp = document.forms["dataform"]["pathtype"].value.trim();
+                var pth = document.forms["dataform"]["path"].value.trim();
+                if (pthtyp == "")
+                {
+                    alert("Please select path type");
+                    return false;
+                }
+                else
+                {
+                    if (pth == "")
+                    {
+                        alert("Please enter path");
+                        return false;
+                    }
+                    else
+                    {
+                        if (pthtyp == 'ifspath')
+                        {
+                            if (pth[0] != '/')
+                            {
+                                alert("Incorrect Path. It should start with forward slash (/) ");
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            var chk = pth[0] + pth[1]
+                            if (chk != '\\\\')
+                            {
+                                alert("Incorrect Path. It should start with backward slash (\\) ");
+                                return false;
+                            }
+                        }
+                    }
+                }
+
+
+
+
+            }
+
+    </script>
+    <script>
+        function post_values()
+        {
+
+            if($('#pathtype').val().trim() && $('#path').val().trim())
+            {
+                if ($('#pathtype').val().trim() == 'ifspath')
+                {
+                    if ($('#path').val().trim()[0] != '/')
+                    {
+                        alert("Incorrect Path. It should start with forward slash (/) ");
+                        return false;
+                    }
+                    else
+                    {
+                        $("#overlay").show();
+                        $.ajax({
+                            type: 'GET',
+                            dataType: "json",
+                            contentType: 'application/json',
+                            url: 'http://{{ host }}:{{ port }}/prt-dev/tcspath',
+                            data: { 'pathtype': $('#pathtype').val().trim(),
+                            'path': $('#path').val().trim() },
+                            success:function(data){
+                            $("#overlay").hide();
+                            $("#opmsg").html(data.mesage);
+                            $("#pathtype").val("");
+                            $("#path").val("");
+                            $("#myModal").show();
+                            }
+                            });
+                    }
+                }
+                else
+                {
+                    var chk = $('#path').val().trim()[0] + $('#path').val().trim()[1];
+                    if (chk != '\\\\')
+                    {
+                        alert("Incorrect Path. It should start with backward slash (\\) ");
+                        return false;
+                    }
+                    else
+                    {
+                        $("#overlay").show();
+                        $.ajax({
+                            type: 'GET',
+                            dataType: "json",
+                            contentType: 'application/json',
+                            url: 'http://{{ host }}:{{ port }}/prt-dev/tcspath',
+                            data: { 'pathtype': $('#pathtype').val().trim(),
+                            'path': $('#path').val().trim() },
+                            success:function(data){
+                            $("#overlay").hide();
+                            $("#opmsg").html(data.mesage);
+                            $("#pathtype").val("");
+                            $("#path").val("");
+                            $("#myModal").show();
+                            }
+                            });
+                    }
+                }
+                
+
+            }
+            else
+            {
+                if($('#pathtype').val().trim() == "")
+                {
+                    alert("Select path Type");
+                    return false;
+                }
+                else
+                {
+                    alert("Enter Path");
+                    return false;
+                }
+            }
+        }
+
+
+    </script>
+    <script>
+        $(".close").on('click', function(event){
+            $("#myModal").hide();
+        });
+    </script>
+    <script>
+    
+        $( document ).ready(function() {
+            
+            $(document).click(function() {
+                if($('#myModal').css('display') == 'block')
+                {
+                    $("#myModal").hide();
+                }
+            });
+
+            $('#topheader').click(function() {
+                    window.location.href = '/prt-dev/home';
+            });
+            
+        });
+        
+    </script>
+    </body>
+</html>
+

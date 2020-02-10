@@ -1,0 +1,29 @@
+version: '2.0'
+
+services:
+ permission_request_app_dev:
+  build:
+   context: /glb/home/s_tlstcs/permission_request_app/prod/docker
+   dockerfile: Dockerfile
+  container_name: permission_request_app_dev
+  image: permission_request_tool_dev
+  restart: always
+  ports:
+   - 5009:80
+  networks:
+   permission_request_network_prod:
+    ipv4_address: 172.28.0.2
+  volumes:
+   - /glb/home/s_tlstcs/permission_request_app/prod:/opt/permission_request_application/
+   - /glb/home/s_tlstcs/permission_request_app/cluster_mounts:/opt/permission_request_application_files/
+   - /glb/home/s_tlstcs/:/glb/home/s_tlstcs/
+
+networks:
+ permission_request_network_prod:
+  driver: bridge
+  ipam:
+   config:
+    - subnet: 172.28.0.0/16
+      ip_range: 172.28.0.0/24
+
+

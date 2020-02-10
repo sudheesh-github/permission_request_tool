@@ -1,0 +1,30 @@
+version: '2.0'
+
+services:
+ permission_request_app_dev:
+  build:
+   context: /glb/home/s_tlstcs/permission_request_app/dev/docker
+   dockerfile: Dockerfile
+  container_name: permission_request_app
+  image: storage-services.americas.shell.com:5443/permission_request_app:1.0
+  restart: always
+  ports:
+   - 5004:80
+  networks:
+   permission_request_network:
+    ipv4_address: 172.23.0.2
+  volumes:
+   - /glb/home/s_tlstcs/permission_request_app/dev:/opt/permission_request_application/
+   - /glb/home/s_tlstcs/permission_request_app/cluster_mounts:/opt/permission_request_application_files/
+   - /glb/home/s_tlstcs/:/glb/home/s_tlstcs/
+   - /etc/localtime:/etc/localtime:ro
+ 
+networks:
+ permission_request_network:
+  driver: bridge
+  ipam:
+   config:
+    - subnet: 172.23.0.0/16
+      ip_range: 172.23.0.0/24
+
+

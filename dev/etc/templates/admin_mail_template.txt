@@ -1,0 +1,4 @@
+<p>Hi Team,</p>
+<p>File has not been removed by the application due to some issue.<br>Please check manually.</p>
+<p>File is: <br> {{ val['files'] }}
+<p>Thanks & Regards,<br> TCSS Team<br> {{ val['sender_mail'] }}
